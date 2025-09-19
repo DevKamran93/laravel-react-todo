@@ -15,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Todo
     Route::resource('/todos',TodoController::class);
+    Route::put('todos/{todo}/toggle', [TodoController::class, 'toggle'])->name('todos.toggle');
 });
 
 require __DIR__.'/settings.php';
