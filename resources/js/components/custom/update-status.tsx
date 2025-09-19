@@ -5,8 +5,17 @@ import todos from "@/routes/todos";
 
 // stateless method where we don't use useState
 // that's currently working fine, and if we need to use useState, then uncomment line 9, 11 to 13, 19, and instead of todo.completed in Switch, use enabled
+// types/todo.ts
+interface Todo {
+    id: number
+    title: string
+    description?: string
+    status: "pending" | "completed"
+    created_at: string
+    updated_at: string
+}
 
-export default function UpdateStatus({ todo }: { todo: any }) {
+export default function UpdateStatus({ todo }: { todo: Todo }) {
     // const [enabled, setEnabled] = useState(todo.completed);
 
     const [loading, setLoading] = useState(false);
