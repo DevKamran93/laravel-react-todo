@@ -1,12 +1,15 @@
 import ActionDropDown from '@/components/custom/action-button';
 import DeleteDialog from '@/components/custom/delete-dialog';
 import AddEditDialog from '@/components/custom/dialogbox';
+import CustomTable from '@/components/custom/table/table';
 import UpdateStatus from '@/components/custom/update-status';
 import FlashToaster from '@/components/flash-toastr';
 import { Toaster } from '@/components/ui/sonner';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/todos';
 import { BreadcrumbItem } from '@/types';
+import { Column } from '@/types/todos/columns';
+import { Todo } from '@/types/todos/todos';
 import { Head, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -16,6 +19,43 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const columns: Column<Todo>[] = [
+    { key: "id", label: "Sr.", render: (_row, rowIndex) => (rowIndex ?? 0) + 1 },
+    { key: "title", label: "Title" },
+    { key: "description", label: "Description" },
+    { key: "alert_at", label: "Alert Date & Time", render: (todo) => todo.alert_at },
+    {
+        key: "completed", label: "Completed", render: (todo) => (
+            <div className="flex gap-1.5 mt-2">
+                <span className="pl-2">{todo.completed ? "Yes" : "No"}</span>
+                <UpdateStatus todo={todo} />
+            </div>
+        )
+    },
+    { key: "created_at", label: "Created" },
+    {
+        key: "action", label: "Action", render: (todo) => (
+            <ActionDropDown items={[
+                {
+                    label: "Edit",
+                    render: () => (
+                        <AddEditDialog buttonItem={{ label: "Edit" }} contentItem={{ title: "Edit Todo" }} todo={todo} triggerType='text'
+                            buttonClass="py-1 mb-1 w-full text-left pl-1 rounded bg-blue-400 hover:bg-blue-500 hover:cursor-pointer" />
+                    )
+                },
+                {
+                    label: "Delete",
+                    render: () => (
+                        <DeleteDialog todo={todo}
+                            customClass="py-1 w-full text-left pl-1 rounded bg-red-600 hover:bg-red-800 hover:cursor-pointer" />
+                    )
+                }
+            ]}
+            />
+        )
+    },
+
+]
 export default function Index({ todos }: { todos: Todo[] }) {
 
     const { quote } = usePage().props;
@@ -36,7 +76,8 @@ export default function Index({ todos }: { todos: Todo[] }) {
                     <AddEditDialog buttonItem={{ label: "Add New Todo" }} contentItem={{ title: "Add New Todo" }} triggerType='button' buttonClass="bg-blue-400 hover:bg-blue-600 text-white hover:cursor-pointer" headerClass='mb-5' />
                 </div>
                 <div className="shadow rounded overflow-x-auto">
-                    <table className="w-full">
+                    <CustomTable columns={columns} data={todos} />
+                    {/* <table className="w-full">
                         <thead className="bg-[#171717] text-white">
                             <tr>
                                 <th className="px-4 py-2 text-left">Sr.</th>
@@ -89,7 +130,7 @@ export default function Index({ todos }: { todos: Todo[] }) {
                                 </tr>
                             )}
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
                 <Toaster
                     position="top-center"

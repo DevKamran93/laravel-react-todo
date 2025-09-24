@@ -91,13 +91,18 @@ class TodoController extends Controller
             'required_if' => 'Alert Date & Time is required when Alert is Enabled.'
         ]);
 
+        $alert_at = $validated['alert']
+            ? (!empty($validated['alert_at'])
+                ? Carbon::parse($validated['alert_at'])->utc()
+                : null)
+            : null;
+
+
         $todo->update([
             'title'       => $validated['title'],
             'description' => $validated['description'] ?? null,
             'alert'       => $validated['alert'] ?? false,
-            'alert_at'    => $validated['alert_at']
-                ? Carbon::parse($validated['alert_at'])->utc()
-                : null,
+            'alert_at'    => $alert_at,
             'completed'   => $validated['completed'] ?? false,
         ]);
 
