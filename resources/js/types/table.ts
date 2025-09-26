@@ -7,9 +7,8 @@ import React from "react";
  * - label: header text.
  * - render: optional custom renderer (receives typed row + indexes).
  */
-
-export type Column<T = any> = {
+export type Column<T> = {
     key: keyof T | string;
     label: string;
-    render?: (row: T, rowIndex?: number, colIndex?: number) => React.ReactNode;
-}
+    render?: (row: T, rowIndex: number, colIndex: number) => React.ReactNode;
+};

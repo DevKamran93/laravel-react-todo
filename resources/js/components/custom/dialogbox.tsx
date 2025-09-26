@@ -15,7 +15,7 @@ import {
 } from "../ui/dialog"
 
 import todos from "@/routes/todos"
-import { Todo } from "@/types/todos/todos"
+import type { Todo } from "@/types/todos/todos"
 
 interface DialogBoxItem {
     label: string

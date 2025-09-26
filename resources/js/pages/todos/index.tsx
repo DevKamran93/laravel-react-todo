@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/todos';
 import { BreadcrumbItem } from '@/types';
 import { todoColumn } from '@/types/todos/columns';
+import { Todo } from '@/types/todos/todos';
 import { Head, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [

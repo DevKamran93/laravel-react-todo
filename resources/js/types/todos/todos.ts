@@ -7,13 +7,14 @@ export interface Todo {
     description?: string | null;
     alert: boolean;
     alert_at?: string | null;
-    alert_at_form?: string | null
+    alert_at_form?: string | null;
     completed: boolean;
     created_at: string;
+    updated_at?: string; // added for completeness
     user_id?: number;
 }
 
 export type TodoFormData = Omit<Todo, "id" | "created_at" | "updated_at"> & {
     alert_at: string;
-    description: string
-}
+    description: string;
+};

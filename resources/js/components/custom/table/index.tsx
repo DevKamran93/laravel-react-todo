@@ -1,4 +1,4 @@
-import { Column } from "@/types/table"
+import { Column } from "@/types/table";
 import React from "react";
 import { TableHead } from "./table-head";
 import { TableBody } from "./table-body";
@@ -8,11 +8,12 @@ type TableProps<T> = {
     columns: Column<T>[];
     data: T[];
     footer?: React.ReactNode;
+    className?: string;
 };
 
-export function CustomTable<T>({ columns, data, footer }: TableProps<T>) {
+export function CustomTable<T>({ columns, data, footer, className }: TableProps<T>) {
     return (
-        <table className="w-full">
+        <table className={`w-full ${className ?? ""}`}>
             <TableHead columns={columns} />
             <TableBody columns={columns} data={data} />
             {footer && <TableFooter colSpan={columns.length}>{footer}</TableFooter>}

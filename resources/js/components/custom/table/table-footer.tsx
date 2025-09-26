@@ -1,15 +1,18 @@
 import React from "react";
 
 type TableFooterProps = {
-    children: React.ReactNode;
     colSpan: number;
+    children: React.ReactNode;
 };
 
-export function TableFooter({ children, colSpan }: TableFooterProps) {
+export function TableFooter({ colSpan, children }: TableFooterProps) {
     return (
-        <tfoot className="bg-gray-100 text-gray-800">
+        <tfoot>
             <tr>
-                <td colSpan={colSpan} className="px-4 py-2 text-center">
+                <td
+                    colSpan={colSpan}
+                    className="px-4 py-2 text-center font-medium"
+                >
                     {children}
                 </td>
             </tr>

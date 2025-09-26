@@ -1,19 +1,25 @@
-import { Column } from "@/types/table"
+import { Column } from "@/types/table";
 
 type TableBodyProps<T> = {
     columns: Column<T>[];
     data: T[];
+    getRowKey?: (row: T, index: number) => string | number;
 };
 
-export function TableBody<T>({ columns, data }: TableBodyProps<T>) {
+export function TableBody<T>({ columns, data, getRowKey }: TableBodyProps<T>) {
     return (
         <tbody>
             {data.length ? (
                 data.map((row, rowIndex) => (
-                    <tr key={rowIndex} className="border-t">
+                    <tr
+                        key={getRowKey ? getRowKey(row, rowIndex) : rowIndex}
+                        className="border-t"
+                    >
                         {columns.map((col, colIndex) => (
-                            <td key={`${rowIndex}-${colIndex}`} className="px-4 py-2">
-                                {col.render ? col.render(row, rowIndex) : (row as any)[col.key]}
+                            <td key={String(col.key)} className="px-4 py-2">
+                                {col.render
+                                    ? col.render(row, rowIndex, colIndex)
+                                    : (row[col.key as keyof T] as React.ReactNode) ?? null}
                             </td>
                         ))}
                     </tr>
