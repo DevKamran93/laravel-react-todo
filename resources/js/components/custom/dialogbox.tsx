@@ -15,6 +15,7 @@ import {
 } from "../ui/dialog"
 
 import todos from "@/routes/todos"
+import { Todo } from "@/types/todos/todos"
 
 interface DialogBoxItem {
     label: string
@@ -30,15 +31,16 @@ interface DialogBoxTriggerProps {
     triggerType?: "button" | "text"
     buttonClass?: string
     headerClass?: string
-    todo?: {
-        id: number
-        title: string
-        description: string
-        alert: boolean
-        alert_at: string
-        alert_at_form: string
-        completed: boolean
-    }
+    // todo?: {
+    //     id: number
+    //     title: string
+    //     description: string
+    //     alert: boolean
+    //     alert_at: string
+    //     alert_at_form: string
+    //     completed: boolean
+    // }
+    todo?: Todo
 }
 
 export default function AddEditTodoDialog({
