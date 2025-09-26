@@ -21,7 +21,7 @@ export default function ActionDropDown({ items }: ActionDropDownProps) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 p-0 m-0 rounded-md hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent"
+                    className="h-8 w-8 p-0 m-0 bg-gray-700 rounded-md hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent"
                 >
                     <EllipsisVertical className="h-6 w-6" />
                 </Button>

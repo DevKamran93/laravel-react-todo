@@ -1,12 +1,12 @@
-import ActionDropDown from '@/components/custom/action-button';
-import DeleteDialog from '@/components/custom/delete-dialog';
 import AddEditDialog from '@/components/custom/dialogbox';
-import UpdateStatus from '@/components/custom/update-status';
+import { CustomTable } from '@/components/custom/table';
 import FlashToaster from '@/components/flash-toastr';
 import { Toaster } from '@/components/ui/sonner';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/todos';
 import { BreadcrumbItem } from '@/types';
+import { todoColumn } from '@/types/todos/columns';
+import { Todo } from '@/types/todos/todos';
 import { Head, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -36,7 +36,8 @@ export default function Index({ todos }: { todos: Todo[] }) {
                     <AddEditDialog buttonItem={{ label: "Add New Todo" }} contentItem={{ title: "Add New Todo" }} triggerType='button' buttonClass="bg-blue-400 hover:bg-blue-600 text-white hover:cursor-pointer" headerClass='mb-5' />
                 </div>
                 <div className="shadow rounded overflow-x-auto">
-                    <table className="w-full">
+                    <CustomTable columns={todoColumn} data={todos} />
+                    {/* <table className="w-full">
                         <thead className="bg-[#171717] text-white">
                             <tr>
                                 <th className="px-4 py-2 text-left">Sr.</th>
@@ -89,7 +90,7 @@ export default function Index({ todos }: { todos: Todo[] }) {
                                 </tr>
                             )}
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
                 <Toaster
                     position="top-center"
