@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TodoCompleted;
 use Carbon\Carbon;
 use App\Models\Todo;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Mail\TodoCompletedMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TodoController extends Controller
 {
@@ -97,7 +100,6 @@ class TodoController extends Controller
                 : null)
             : null;
 
-
         $todo->update([
             'title'       => $validated['title'],
             'description' => $validated['description'] ?? null,
@@ -132,6 +134,7 @@ class TodoController extends Controller
 
     public function toggle(Request $request, Todo $todo)
     {
+        $message = "Todo status updated.";
         $validated = $request->validate([
             'completed' => 'required|boolean',
         ]);
@@ -140,7 +143,13 @@ class TodoController extends Controller
             'completed' => $validated['completed'],
         ]);
 
+        $wasCompleted = (bool)$todo->completed;
+        // dd($wasCompleted);
+        if ($wasCompleted && $todo->completed) {
+            // TodoCompleted::dispatch($todo);
+            // $message = "Todo Updated and Email Sent Successfully!";
+        }
         // If it's an Inertia request, just redirect back with partial reload
-        return back()->with('success', 'Todo status updated.');
+        return back()->with('success', $message);
     }
 }
