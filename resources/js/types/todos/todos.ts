@@ -8,6 +8,7 @@ export interface Todo {
     alert: boolean;
     alert_at?: string | null;
     alert_at_form?: string | null;
+    alert_at_formatted?: string | null;
     completed: boolean;
     created_at: string;
     updated_at?: string; // added for completeness
@@ -16,5 +17,6 @@ export interface Todo {
 
 export type TodoFormData = Omit<Todo, "id" | "created_at" | "updated_at"> & {
     alert_at: string;
+    alert_at_formatted: string;
     description: string;
 };

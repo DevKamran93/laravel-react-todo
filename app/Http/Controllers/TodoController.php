@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TodoCompleted;
+use Throwable;
 use Carbon\Carbon;
 use App\Models\Todo;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Events\TodoCompleted;
 use App\Mail\TodoCompletedMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -35,6 +37,33 @@ class TodoController extends Controller
         //
     }
 
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'title'       => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'alert'       => 'boolean',
+    //         'alert_at'    => 'nullable|date|required_if:alert,true',
+    //         'completed'   => 'boolean',
+    //     ], [
+    //         'required_if' => 'Alert Date & Time is required when Alert is Enabled.'
+    //     ]);
+
+    //     Todo::create([
+    //         'title'       => $validated['title'],
+    //         'description' => $validated['description'] ?? null,
+    //         'alert'       => $validated['alert'] ?? false,
+    //         // 🔑 Always parse and save as UTC
+    //         'alert_at'    => $validated['alert_at']
+    //             ? Carbon::parse($validated['alert_at'])->utc()
+    //             : null,
+    //         'completed'   => $validated['completed'] ?? false,
+    //         'user_id'     => Auth::id(),
+    //     ]);
+
+    //     return redirect()->route('todos.index')
+    //         ->with('success', 'Todo created successfully');
+    // }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,20 +76,40 @@ class TodoController extends Controller
             'required_if' => 'Alert Date & Time is required when Alert is Enabled.'
         ]);
 
-        Todo::create([
-            'title'       => $validated['title'],
-            'description' => $validated['description'] ?? null,
-            'alert'       => $validated['alert'] ?? false,
-            // 🔑 Always parse and save as UTC
-            'alert_at'    => $validated['alert_at']
-                ? Carbon::parse($validated['alert_at'])->utc()
-                : null,
-            'completed'   => $validated['completed'] ?? false,
-            'user_id'     => Auth::id(),
-        ]);
+        // Show what we receive (you already did this)
+        // dd($validated);
+        try {
+            // Attempt creation (temporarily copy your create code here)
+            $todo = Todo::create([
+                'title'       => $validated['title'],
+                'description' => $validated['description'] ?? null,
+                'alert'       => $validated['alert'] ?? false,
+                'alert_at'    => !empty($validated['alert_at'])
+                    ? \Carbon\Carbon::parse($validated['alert_at'])->utc()
+                    : null,
+                'completed'   => $validated['completed'] ?? false,
+                'user_id'     => auth()->id(),
+            ]);
 
-        return redirect()->route('todos.index')
-            ->with('success', 'Todo created successfully');
+            // If successful during test, this will show
+            Log::info([$todo->toArray()]);
+            // dd('CREATED OK', $todo->toArray());
+        } catch (Throwable $e) {
+            // Dump the actual error details so we know exactly what's failing
+            Log::info([
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine(),
+                $e->getTraceAsString()
+            ]);
+            // dd(
+            //     'EXCEPTION',
+            //     $e->getMessage(),
+            //     $e->getFile(),
+            //     $e->getLine(),
+            //     $e->getTraceAsString()
+            // );
+        }
     }
 
     /**
