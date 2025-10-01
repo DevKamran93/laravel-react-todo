@@ -30,23 +30,30 @@ class Todo extends Model
         'created_at' => 'datetime:d-m-Y',
     ];
 
-    protected $appends = ['alert_at_form'];
+    protected $appends = ['alert_at_form', 'alert_at_formatted'];
 
     /**
      * Mutator: Always store as Carbon (DB format)
      */
-    public function setAlertAtAttribute($value)
+    // public function setAlertAtAttribute($value)
+    // {
+    //     $this->attributes['alert_at'] = $value ? Carbon::parse($value) : null;
+    // }
+
+    public function getAlertAtFormattedAttribute()
     {
-        $this->attributes['alert_at'] = $value ? Carbon::parse($value) : null;
+        return $this->attributes['alert_at'] ? Carbon::parse($this->attributes['alert_at'])->timezone(config('app.timezone'))
+            ->format('d-M-Y h:i a')
+            : null;
     }
 
     /**
      * Accessor: Return in a human-readable format by default
      */
-    public function getAlertAtAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->timezone(config('app.timezone'))->format('d-M-Y h:i a') : null;
-    }
+    // public function getAlertAtAttribute($value)
+    // {
+    //     return $value ? Carbon::parse($value)->timezone(config('app.timezone'))->format('d-M-Y h:i a') : null;
+    // }
 
     /**
      * Accessor for forms: return value in `Y-m-d\TH:i` (datetime-local input format)

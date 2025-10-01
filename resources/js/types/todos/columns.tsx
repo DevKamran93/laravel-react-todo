@@ -13,7 +13,7 @@ export const todoColumn: Column<Todo>[] = [
     {
         key: "alert_at",
         label: "Alert Date & Time",
-        render: (todo) => todo.alert_at ?? "No",
+        render: (todo) => todo.alert_at_formatted ?? "No",
     },
     {
         key: "completed",

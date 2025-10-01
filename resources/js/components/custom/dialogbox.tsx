@@ -62,7 +62,10 @@ export default function AddEditTodoDialog({
         title: todo?.title ?? "",
         description: todo?.description ?? "",
         alert: todo?.alert ?? false,
-        alert_at: todo?.alert_at ? todo.alert_at_form : "",
+        alert_at: todo?.alert_at
+            ? (todo.alert_at_form ? todo.alert_at_form : alert_at_formatted)
+            : "",
+
         completed: todo?.completed ?? false,
     })
 
